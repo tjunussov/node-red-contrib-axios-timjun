@@ -2,6 +2,7 @@ module.exports = function (RED) {
     const axios = require("axios");
     const http = require("http");
     const https = require("https");
+    const mustache = require("mustache");
     const fs = require("fs");
 
     function EndpointNode(n) {
@@ -25,6 +26,10 @@ module.exports = function (RED) {
     function RequestNode(n) {
         RED.nodes.createNode(this, n);
         const node = this;
+        
+        var nodeUrl = n.url;
+        var isTemplatedUrl = (nodeUrl||"").indexOf("{{") != -1;
+        
 
         // get request endpoint
         const endpoint = RED.nodes.getNode(n.endpoint);
@@ -107,9 +112,20 @@ module.exports = function (RED) {
 
         node.on("input", async function (msg, send, done) {
             try {
+                
+                var url = "";
+                
+                if (msg.url) {
+                    url = msg.url 
+                } else if(isTemplatedUrl) {
+                    url = mustache.render(nodeUrl,msg);
+                } else {
+                    url = nodeUrl
+                }
+
                 const config = {
                     ...baseConfig,
-                    url: n.url || msg.url,
+                    url: url,
                     headers: {
                         ...baseConfig.headers,
                         ...msg.headers,
