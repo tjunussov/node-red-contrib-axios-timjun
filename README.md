@@ -1,4 +1,4 @@
-# node-red-contrib-axios
+# node-red-contrib-axios-tjey
 
 A http request node for Node-RED.
 Based on the [Axios](https://www.npmjs.com/package/axios) http client.
@@ -14,8 +14,12 @@ Use this endpoint configuration in multiple request nodes.
 ![axios-endpoint](https://raw.githubusercontent.com/steineey/node-red-contrib-axios/master/examples/axios-endpoint.png)
 
 ### Request node
+Allows expression in URL {{payload.bin}}
 
 ![axios-request](https://raw.githubusercontent.com/steineey/node-red-contrib-axios/master/examples/axios-request.png)
+
+### Http In node
+Allows ANY Method
 
 ## Example flows
 
